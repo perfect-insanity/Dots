@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Точки</string>
+    <string name="undo">Отмена</string>
+    <string name="clear">Заново</string>
+    <string name="continue_btn">Продолжить</string>
+    <string name="new_game_btn">Новая игра</string>
+    <string name="menu_header">Добро пожаловать!</string>
+    <string name="width_text">Ширина: %1$d</string>
+    <string name="height_text">Высота: %1$d</string>
+    <string name="game_over">Игра окончена</string>
+    <string name="retry">Заново</string>
+    <string name="to_menu">В меню</string>
+    <string name="player_win">%1$s победил!</string>
+    <string name="draw">Ничья</string>
+    <string name="undo_to_beginning">Вы долистали до начала Всего</string>
+</resources>
