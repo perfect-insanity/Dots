@@ -107,7 +107,6 @@ class Game(val width: Int, val height: Int) {
         val (lastDot, firstPlayerOwnership, secondPlayerOwnership, lastSurrenders, lastTraps) =
             moves.pop()
 
-        // FIXME: ссылки теряются при сериализации
         player = lastDot.player
         field[lastDot.x][lastDot.y] = lastDot.apply { player = Player.NONE }
 
