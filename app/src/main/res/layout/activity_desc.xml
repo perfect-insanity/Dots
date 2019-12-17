@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/pretty_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rules_title"/>
+
+        <TextView
+            style="@style/plain_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/intro"/>
+
+        <TextView
+            style="@style/subtitle_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/target_title" />
+
+        <TextView
+            style="@style/plain_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/target" />
+
+        <TextView
+            style="@style/subtitle_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/surroundings_title" />
+
+        <TextView
+            style="@style/plain_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/surroundings" />
+
+        <TextView
+            style="@style/subtitle_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/traps_title" />
+
+        <TextView
+            style="@style/plain_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/traps" />
+
+        <TextView
+            style="@style/subtitle_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/game_ending_title" />
+
+        <TextView
+            style="@style/plain_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/game_ending" />
+
+    </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

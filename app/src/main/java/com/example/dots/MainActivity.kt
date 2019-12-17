@@ -2,6 +2,7 @@ package com.example.dots
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.ViewTreeObserver
 import android.widget.Button
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
             setDisplayShowHomeEnabled(false)
         }
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         findViewById<ConstraintLayout>(R.id.container).apply {
             viewTreeObserver.addOnGlobalLayoutListener(
@@ -70,6 +72,12 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
+                        findViewById<Button>(R.id.desc_button).setOnClickListener {
+                            startActivity(Intent(
+                                this@MainActivity,
+                                DescActivity::class.java
+                            ))
+                        }
                         findViewById<Button>(R.id.continue_button).setOnClickListener {
                             startActivity(Intent(
                                 this@MainActivity,
