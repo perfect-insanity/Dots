@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.SeekBar
@@ -72,12 +74,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
-                        findViewById<Button>(R.id.desc_button).setOnClickListener {
-                            startActivity(Intent(
-                                this@MainActivity,
-                                DescActivity::class.java
-                            ))
-                        }
                         findViewById<Button>(R.id.continue_button).setOnClickListener {
                             startActivity(Intent(
                                 this@MainActivity,
@@ -95,6 +91,21 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_tools_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.desc -> {
+                startActivity(Intent(this, DescActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -44,18 +44,6 @@
 
     <Button
         style="@style/button_margin"
-        android:id="@+id/desc_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/desc_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/continue_button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        style="@style/button_margin"
         android:id="@+id/continue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +52,7 @@
         app:layout_constraintEnd_toStartOf="@+id/new_game_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/desc_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         style="@style/button_margin"
