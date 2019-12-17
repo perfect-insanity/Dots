@@ -158,18 +158,11 @@ class Game(val width: Int, val height: Int) {
 
     private fun checkIfTrapped(dot: Dot): Surrender? {
         for (trap in traps) {
-            if (dot.player == trap.border[0].player.enemy() && contains(trap.surrounded, dot))
+            if (dot.player == trap.border[0].player.enemy() && dot in trap.surrounded)
                 return trap
         }
 
         return null
-    }
-
-    private fun contains(list: Set<Dot>, dot: Dot): Boolean {
-        for (e in list)
-            if (e == dot)
-                return true
-        return false
     }
 
     private fun checkIfFinished(): Boolean {
