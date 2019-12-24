@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.EditText
@@ -18,7 +19,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,88 +29,90 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         findViewById<ConstraintLayout>(R.id.container).apply {
-            viewTreeObserver.addOnGlobalLayoutListener(
-                object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        Config.widthPixels = measuredWidth
-                        Config.heightPixels = measuredHeight
+            onGlobalLayout {
+                onGlobalLayout(measuredWidth, measuredHeight)
+            }
+        }
+    }
 
-                        getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).apply {
+    private fun onGlobalLayout(
+        measuredWidth: Int,
+        measuredHeight: Int
+    ) {
+        Config.widthPixels = measuredWidth
+        Config.heightPixels = measuredHeight
 
-                            val historyJson = getString(Labels.HISTORY, null)
-                            val type = object : TypeToken<ArrayList<History.GameResult>>(){}.type
-                            History.entries = if (historyJson != null)
-                                Gson().fromJson(historyJson, type)
-                            else
-                                ArrayList()
+        getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).apply {
 
-                            getInt(Labels.WIDTH_DOTS, -1).let {
-                                if (it != -1)
-                                    Config.widthDots = it
-                            }
-                            getInt(Labels.HEIGHT_DOTS, -1).let {
-                                if (it != -1)
-                                    Config.heightDots = it
-                            }
-                        }
+            val historyJson = getString(Labels.HISTORY, null)
+            val type = object : TypeToken<ArrayList<History.GameResult>>(){}.type
+            History.entries = if (historyJson != null)
+                Gson().fromJson(historyJson, type)
+            else
+                ArrayList()
 
-                        var widthDots = Config.widthDots!!
-                        var heightDots = Config.heightDots!!
+            getInt(Labels.WIDTH_DOTS, -1).let {
+                if (it != -1)
+                    Config.widthDots = it
+            }
+            getInt(Labels.HEIGHT_DOTS, -1).let {
+                if (it != -1)
+                    Config.heightDots = it
+            }
+        }
 
-                        val widthDotsView =
-                            findViewById<TextView>(R.id.textView_width).apply {
-                                text = getString(R.string.width_text, widthDots)
-                            }
-                        val heightDotsView =
-                            findViewById<TextView>(R.id.textView_height).apply {
-                                text = getString(R.string.height_text, heightDots)
-                            }
+        var widthDots = Config.widthDots!!
+        var heightDots = Config.heightDots!!
 
-                        findViewById<SeekBar>(R.id.slider_width).apply {
-                            max = Config.getDotsCount(Config.widthPixels!!)
-                            progress = widthDots
-                            setOnProgressChanged {
-                                widthDotsView.text = getString(R.string.width_text, it)
-                                widthDots = it
-                            }
-                        }
-                        findViewById<SeekBar>(R.id.slider_height).apply {
-                            max = Config.getDotsCount(Config.heightPixels!!)
-                            progress = heightDots
-                            setOnProgressChanged {
-                                heightDotsView.text = getString(R.string.height_text, it)
-                                heightDots = it
-                            }
-                        }
+        val widthDotsView =
+            findViewById<TextView>(R.id.textView_width).apply {
+                text = getString(R.string.width_text, widthDots)
+            }
+        val heightDotsView =
+            findViewById<TextView>(R.id.textView_height).apply {
+                text = getString(R.string.height_text, heightDots)
+            }
 
-                        findViewById<Button>(R.id.continue_button).setOnClickListener {
-                            startActivity(Intent(
-                                this@MainActivity,
-                                GameActivity::class.java
-                            ))
-                        }
-                        findViewById<Button>(R.id.new_game_button).setOnClickListener {
-                            findViewById<EditText>(R.id.editText_player_first).apply {
-                                if (text.toString() != "")
-                                    Player.FIRST.nick = text.toString()
-                            }
-                            findViewById<EditText>(R.id.editText_player_second).apply {
-                                if (text.toString() != "")
-                                    Player.SECOND.nick = text.toString()
-                            }
+        findViewById<SeekBar>(R.id.slider_width).apply {
+            max = Config.getDotsCount(Config.widthPixels!!)
+            progress = widthDots
+            setOnProgressChanged {
+                widthDotsView.text = getString(R.string.width_text, it)
+                widthDots = it
+            }
+        }
+        findViewById<SeekBar>(R.id.slider_height).apply {
+            max = Config.getDotsCount(Config.heightPixels!!)
+            progress = heightDots
+            setOnProgressChanged {
+                heightDotsView.text = getString(R.string.height_text, it)
+                heightDots = it
+            }
+        }
 
-                            Config.widthDots = widthDots
-                            Config.heightDots = heightDots
+        findViewById<Button>(R.id.continue_button).setOnClickListener {
+            startActivity(Intent(
+                this@MainActivity,
+                GameActivity::class.java
+            ))
+        }
+        findViewById<Button>(R.id.new_game_button).setOnClickListener {
+            findViewById<EditText>(R.id.editText_player_first).apply {
+                if (text.toString() != "")
+                    Player.FIRST.nick = text.toString()
+            }
+            findViewById<EditText>(R.id.editText_player_second).apply {
+                if (text.toString() != "")
+                    Player.SECOND.nick = text.toString()
+            }
 
-                            startActivity(Intent(
-                                this@MainActivity,
-                                GameActivity::class.java
-                            ).putExtra(Labels.RESET, true))
-                        }
-                    }
-                }
-            )
+            Config.widthDots = widthDots
+            Config.heightDots = heightDots
+
+            startActivity(Intent(
+                this@MainActivity,
+                GameActivity::class.java
+            ).putExtra(Labels.RESET, true))
         }
     }
 
@@ -162,4 +164,16 @@ class MainActivity : AppCompatActivity() {
             }
         )
     }
+
+    private fun View.onGlobalLayout(action: () -> Unit) {
+        viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    action()
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            }
+        )
+    }
+
 }
