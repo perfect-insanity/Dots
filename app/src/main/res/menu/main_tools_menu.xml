@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/history"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/history"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/desc"
         android:icon="@drawable/ic_info_outline_black_24dp"
         android:title="@string/desc"

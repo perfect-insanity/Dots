@@ -12,6 +12,7 @@ import com.example.dots.core.Player
 import com.google.gson.Gson
 
 class GameActivity : AppCompatActivity() {
+    private lateinit var fieldView: FieldView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,19 +25,20 @@ class GameActivity : AppCompatActivity() {
         }
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        if (!intent.getBooleanExtra("RESET", false))
-            getSharedPreferences(Labels.APP_PREFERENCES.name, Context.MODE_PRIVATE).apply {
-                val gameJson = getString(Labels.GAME.name, null)
-                if (gameJson != null)
-                    findViewById<FieldView>(R.id.field).game =
-                        Gson().fromJson(gameJson, Game::class.java)
+        fieldView = findViewById(R.id.field)
+
+        if (!intent.getBooleanExtra(Labels.RESET, false))
+            getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).apply {
+                getString(Labels.GAME, null)?.let {
+                    fieldView.game = Gson().fromJson(it, Game::class.java)
+                }
 
                 Player.FIRST.ownership = getInt(
-                    Labels.FIRST_PLAYER_OWNERSHIP.name,
+                    Labels.FIRST_PLAYER_OWNERSHIP,
                     Player.FIRST.ownership
                 )
                 Player.SECOND.ownership = getInt(
-                    Labels.SECOND_PLAYER_OWNERSHIP.name,
+                    Labels.SECOND_PLAYER_OWNERSHIP,
                     Player.SECOND.ownership
                 )
             }
@@ -50,11 +52,11 @@ class GameActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.undo_last_move -> {
-                findViewById<FieldView>(R.id.field).undoLastMove()
+                fieldView.undoLastMove()
                 true
             }
             R.id.clear -> {
-                findViewById<FieldView>(R.id.field).clear()
+                fieldView.clear()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -63,11 +65,11 @@ class GameActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        getSharedPreferences(Labels.APP_PREFERENCES.name, Context.MODE_PRIVATE).edit().apply {
-            val gameJson = Gson().toJson(findViewById<FieldView>(R.id.field).game)
-            putString(Labels.GAME.name, gameJson)
-            putInt(Labels.FIRST_PLAYER_OWNERSHIP.name, Player.FIRST.ownership)
-            putInt(Labels.SECOND_PLAYER_OWNERSHIP.name, Player.SECOND.ownership)
+        getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).edit().apply {
+            val gameJson = Gson().toJson(fieldView.game)
+            putString(Labels.GAME, gameJson)
+            putInt(Labels.FIRST_PLAYER_OWNERSHIP, Player.FIRST.ownership)
+            putInt(Labels.SECOND_PLAYER_OWNERSHIP, Player.SECOND.ownership)
 
             apply()
         }

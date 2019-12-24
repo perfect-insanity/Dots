@@ -11,6 +11,8 @@
     <string name="retry">Заново</string>
     <string name="to_menu">В меню</string>
     <string name="player_win">%1$s победил!</string>
+    <string name="players_sep">" vs "</string>
+    <string name="score">%1$d:%2$d</string>
     <string name="draw">Ничья</string>
     <string name="undo_to_beginning">Вы долистали до начала Всего</string>
     <string name="rules_title">Правила</string>
@@ -24,4 +26,9 @@
     <string name="game_ending_title">Конец игры</string>
     <string name="game_ending">Игра ведется до полного заполнения поля. Выигрывает игрок, во владении которого находится больше всего точек.</string>
     <string name="desc">Описание</string>
+    <string name="history">История</string>
+    <string name="history_header">История</string>
+    <string name="desc_header">Описание</string>
+    <string name="first_player">Первый игрок</string>
+    <string name="second_player">Второй игрок</string>
 </resources>

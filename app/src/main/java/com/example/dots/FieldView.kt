@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.dots.core.Game
 import com.example.dots.core.Player
+import java.util.*
 
 class FieldView : View {
     private val dotsPaint = Paint()
@@ -90,11 +91,23 @@ class FieldView : View {
 
         invalidate()
         if (game.isFinished) {
-            when (Player.FIRST.ownership.compareTo(Player.SECOND.ownership)) {
-                1 -> showEndgameDialog(context.getString(R.string.player_win, Player.FIRST.nick))
-                -1 -> showEndgameDialog(context.getString(R.string.player_win, Player.SECOND.nick))
-                0 -> showEndgameDialog(context.getString(R.string.draw))
+            if (Player.FIRST.ownership == Player.SECOND.ownership) {
+                showEndgameDialog(context.getString(R.string.draw))
             }
+            else {
+                val winner = when (Player.FIRST.ownership.compareTo(Player.SECOND.ownership)) {
+                    1 -> Player.FIRST.nick
+                    -1 -> Player.SECOND.nick
+                    else -> null
+                }
+                showEndgameDialog(context.getString(R.string.player_win, winner))
+            }
+            History.add(History.GameResult(
+                Calendar.getInstance().time.toString(),
+                Player.FIRST.nick, Player.SECOND.nick,
+                context.getString(R.string.score, Player.FIRST.ownership, Player.SECOND.ownership)
+            ))
+
         }
         return true
     }
@@ -124,16 +137,20 @@ class FieldView : View {
                 invalidate()
             }
             setNegativeButton(R.string.to_menu) { dialog, id ->
-                var parent = context
-                while (parent is ContextWrapper) {
-                    if (parent is Activity) break
-                    parent = (context as ContextWrapper).baseContext
-                }
-
-                (parent as Activity).finish()
+                getParentActivity().finish()
             }
 
             create()
         }.show()
+    }
+
+    private fun getParentActivity(): Activity {
+        var parent = context
+        while (parent is ContextWrapper) {
+            if (parent is Activity) break
+            parent = (context as ContextWrapper).baseContext
+        }
+
+        return parent as Activity
     }
 }

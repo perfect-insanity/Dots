@@ -8,10 +8,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
 import android.widget.Button
+import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.dots.core.Player
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.main_toolbar))
         supportActionBar?.apply {
-            setDisplayShowTitleEnabled(false)
-            setDisplayShowHomeEnabled(false)
+            title = getString(R.string.menu_header)
         }
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -34,12 +36,20 @@ class MainActivity : AppCompatActivity() {
                         Config.widthPixels = measuredWidth
                         Config.heightPixels = measuredHeight
 
-                        getSharedPreferences(Labels.APP_PREFERENCES.name, Context.MODE_PRIVATE).apply {
-                            getInt(Labels.WIDTH_DOTS.name, -1).let {
+                        getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).apply {
+
+                            val historyJson = getString(Labels.HISTORY, null)
+                            val type = object : TypeToken<ArrayList<History.GameResult>>(){}.type
+                            History.entries = if (historyJson != null)
+                                Gson().fromJson(historyJson, type)
+                            else
+                                ArrayList()
+
+                            getInt(Labels.WIDTH_DOTS, -1).let {
                                 if (it != -1)
                                     Config.widthDots = it
                             }
-                            getInt(Labels.HEIGHT_DOTS.name, -1).let {
+                            getInt(Labels.HEIGHT_DOTS, -1).let {
                                 if (it != -1)
                                     Config.heightDots = it
                             }
@@ -81,12 +91,22 @@ class MainActivity : AppCompatActivity() {
                             ))
                         }
                         findViewById<Button>(R.id.new_game_button).setOnClickListener {
+                            findViewById<EditText>(R.id.editText_player_first).apply {
+                                if (text.toString() != "")
+                                    Player.FIRST.nick = text.toString()
+                            }
+                            findViewById<EditText>(R.id.editText_player_second).apply {
+                                if (text.toString() != "")
+                                    Player.SECOND.nick = text.toString()
+                            }
+
                             Config.widthDots = widthDots
                             Config.heightDots = heightDots
+
                             startActivity(Intent(
                                 this@MainActivity,
                                 GameActivity::class.java
-                            ).putExtra("RESET", true))
+                            ).putExtra(Labels.RESET, true))
                         }
                     }
                 }
@@ -101,6 +121,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
+            }
             R.id.desc -> {
                 startActivity(Intent(this, DescActivity::class.java))
                 true
@@ -112,11 +136,12 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
 
-        getSharedPreferences(Labels.APP_PREFERENCES.name, Context.MODE_PRIVATE)
+        getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE)
             .edit()
             .apply {
-                putInt(Labels.WIDTH_DOTS.name, Config.widthDots!!)
-                putInt(Labels.HEIGHT_DOTS.name, Config.heightDots!!)
+                putString(Labels.HISTORY, Gson().toJson(History.entries))
+                putInt(Labels.WIDTH_DOTS, Config.widthDots!!)
+                putInt(Labels.HEIGHT_DOTS, Config.heightDots!!)
                 apply()
             }
     }
