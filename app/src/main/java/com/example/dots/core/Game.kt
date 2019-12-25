@@ -7,9 +7,9 @@ class Game(val width: Int, val height: Int) {
     val field = ArrayList<MutableList<Dot>>()
     var player = Player.FIRST
     val borders = ArrayList<MutableList<Dot>>()
+    val moves = Stack<MoveInfo>()
     var isFinished = false
     private var traps = ArrayList<Surrender>()
-    private val moves = Stack<MoveInfo>()
     private var iteration = 0
 
     init {

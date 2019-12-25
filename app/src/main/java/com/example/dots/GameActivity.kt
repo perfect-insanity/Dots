@@ -1,11 +1,13 @@
 package com.example.dots
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dots.core.Game
 import com.example.dots.core.Player
@@ -56,7 +58,25 @@ class GameActivity : AppCompatActivity() {
                 true
             }
             R.id.clear -> {
-                fieldView.clear()
+                if (fieldView.game.moves.isNotEmpty())
+                    AlertDialog.Builder(this).apply {
+                        setTitle(getString(R.string.clear_field_sure))
+                        setMessage(getString(R.string.irreplaceable))
+
+                        setPositiveButton(getString(R.string.yes)) { dialog, id ->
+                            fieldView.clear()
+                        }
+                        setNegativeButton(getString(R.string.no)) { dialog, id -> }
+
+                        create()
+                    }.show()
+                else
+                    Toast.makeText(
+                        this,
+                        getString(R.string.field_already_clear),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

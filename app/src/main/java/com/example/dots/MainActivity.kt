@@ -1,5 +1,6 @@
 package com.example.dots
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -8,10 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.Button
-import android.widget.EditText
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.dots.core.Player
@@ -42,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         Config.widthPixels = measuredWidth
         Config.heightPixels = measuredHeight
 
+        var saveExists: Boolean
         getSharedPreferences(Labels.APP_PREFERENCES, Context.MODE_PRIVATE).apply {
+            saveExists = contains(Labels.GAME)
 
             val historyJson = getString(Labels.HISTORY, null)
             val type = object : TypeToken<ArrayList<History.GameResult>>(){}.type
@@ -91,29 +91,53 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.continue_button).setOnClickListener {
-            startActivity(Intent(
-                this@MainActivity,
-                GameActivity::class.java
-            ))
+            if (saveExists)
+                startActivity(Intent(
+                    this@MainActivity,
+                    GameActivity::class.java
+                ))
+            else
+                Toast.makeText(
+                    this,
+                    getString(R.string.save_not_found),
+                    Toast.LENGTH_SHORT
+                ).show()
         }
         findViewById<Button>(R.id.new_game_button).setOnClickListener {
-            findViewById<EditText>(R.id.editText_player_first).apply {
-                if (text.toString() != "")
-                    Player.FIRST.nick = text.toString()
-            }
-            findViewById<EditText>(R.id.editText_player_second).apply {
-                if (text.toString() != "")
-                    Player.SECOND.nick = text.toString()
-            }
+            if (saveExists)
+                AlertDialog.Builder(this).apply {
+                    setTitle(getString(R.string.new_game_sure))
+                    setMessage(getString(R.string.save_will_be_removed))
 
-            Config.widthDots = widthDots
-            Config.heightDots = heightDots
+                    setPositiveButton(getString(R.string.yes)) { dialog, id ->
+                        startNewGame(widthDots, heightDots)
+                    }
+                    setNegativeButton(getString(R.string.no)) { dialog, id -> }
 
-            startActivity(Intent(
-                this@MainActivity,
-                GameActivity::class.java
-            ).putExtra(Labels.RESET, true))
+                    create()
+                }.show()
+            else
+                startNewGame(widthDots, heightDots)
         }
+    }
+
+    private fun startNewGame(widthDots: Int, heightDots: Int) {
+        findViewById<EditText>(R.id.editText_player_first).apply {
+            if (text.toString() != "")
+                Player.FIRST.nick = text.toString()
+        }
+        findViewById<EditText>(R.id.editText_player_second).apply {
+            if (text.toString() != "")
+                Player.SECOND.nick = text.toString()
+        }
+
+        Config.widthDots = widthDots
+        Config.heightDots = heightDots
+
+        startActivity(Intent(
+            this@MainActivity,
+            GameActivity::class.java
+        ).putExtra(Labels.RESET, true))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

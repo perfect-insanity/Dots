@@ -3,7 +3,7 @@
     <string name="undo">Отмена</string>
     <string name="clear">Заново</string>
     <string name="continue_btn">Продолжить</string>
-    <string name="new_game_btn">Заново</string>
+    <string name="new_game_btn">Новая игра</string>
     <string name="menu_header">Добро пожаловать!</string>
     <string name="width_text">Ширина: %1$d</string>
     <string name="height_text">Высота: %1$d</string>
@@ -27,8 +27,16 @@
     <string name="game_ending">Игра ведется до полного заполнения поля. Выигрывает игрок, во владении которого находится больше всего точек.</string>
     <string name="desc">Описание</string>
     <string name="history">История</string>
-    <string name="history_header">История</string>
-    <string name="desc_header">Описание</string>
     <string name="first_player">Первый игрок</string>
     <string name="second_player">Второй игрок</string>
+    <string name="clear_field_sure">Очистить поле?</string>
+    <string name="irreplaceable">Это действие нельзя отменить</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="clear_history_sure">Очистить историю?</string>
+    <string name="history_already_clear">История уже очищена</string>
+    <string name="field_already_clear">Поле уже пустое</string>
+    <string name="new_game_sure">Начать новую игру?</string>
+    <string name="save_will_be_removed">Текущее сохранение будет удалено</string>
+    <string name="save_not_found">Сохранение не найдено</string>
 </resources>

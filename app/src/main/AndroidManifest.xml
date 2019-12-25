@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DescActivity" />
         <activity android:name=".HistoryActivity" />
     </application>

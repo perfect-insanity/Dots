@@ -9,7 +9,7 @@ class DescActivity : AppCompatActivity() {
         setContentView(R.layout.activity_desc)
 
         supportActionBar?.apply {
-            title = getString(R.string.desc_header)
+            title = getString(R.string.desc)
         }
     }
 }
