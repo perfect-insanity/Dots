@@ -121,14 +121,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setNick(player: Player, nick: String) {
+        player.nick = if (nick != "")
+            nick
+        else when (player) {
+            Player.FIRST -> getString(R.string.player_first_default)
+            Player.SECOND -> getString(R.string.player_second_default)
+            else -> null
+        }
+    }
+
     private fun startNewGame(widthDots: Int, heightDots: Int) {
         findViewById<EditText>(R.id.editText_player_first).apply {
-            if (text.toString() != "")
-                Player.FIRST.nick = text.toString()
+            setNick(Player.FIRST, text.toString())
         }
         findViewById<EditText>(R.id.editText_player_second).apply {
-            if (text.toString() != "")
-                Player.SECOND.nick = text.toString()
+            setNick(Player.SECOND, text.toString())
         }
 
         Config.widthDots = widthDots

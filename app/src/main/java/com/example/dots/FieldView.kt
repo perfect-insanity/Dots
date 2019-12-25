@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.dots.core.Game
 import com.example.dots.core.Player
+import java.text.DateFormat
 import java.util.*
 
 class FieldView : View {
@@ -103,8 +104,8 @@ class FieldView : View {
                 showEndgameDialog(context.getString(R.string.player_win, winner))
             }
             History.add(History.GameResult(
-                Calendar.getInstance().time.toString(),
-                Player.FIRST.nick, Player.SECOND.nick,
+                DateFormat.getDateTimeInstance().format(Date()),
+                Player.FIRST.nick!!, Player.SECOND.nick!!,
                 context.getString(R.string.score, Player.FIRST.ownership, Player.SECOND.ownership)
             ))
 

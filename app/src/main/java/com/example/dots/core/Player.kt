@@ -4,16 +4,16 @@ import android.graphics.Color
 
 enum class Player(
     var ownership: Int,
-    var nick: String,
+    var nick: String?,
     var color: Int
 ) {
-    NONE(0, "Никто", Color.GRAY) {
+    NONE(0, null, Color.GRAY) {
         override fun enemy(): Player = NONE
     },
-    FIRST(0, "Игрок 1", Color.RED) {
+    FIRST(0, null, Color.RED) {
         override fun enemy(): Player = SECOND
     },
-    SECOND(0, "Игрок 2", Color.BLUE) {
+    SECOND(0, null, Color.BLUE) {
         override fun enemy(): Player = FIRST
     };
 

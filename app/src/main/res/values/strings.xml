@@ -39,4 +39,6 @@
     <string name="new_game_sure">Начать новую игру?</string>
     <string name="save_will_be_removed">Текущее сохранение будет удалено</string>
     <string name="save_not_found">Сохранение не найдено</string>
+    <string name="player_first_default">Игрок 1</string>
+    <string name="player_second_default">Игрок 2</string>
 </resources>
