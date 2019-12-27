@@ -59,6 +59,13 @@ class MainActivity : AppCompatActivity() {
                 if (it != -1)
                     Config.heightDots = it
             }
+
+            getString(Labels.FIRST_PLAYER_NICK, Player.FIRST.nick)?.let {
+                Player.FIRST.nick = it
+            }
+            getString(Labels.SECOND_PLAYER_NICK, Player.SECOND.nick)?.let {
+                Player.SECOND.nick = it
+            }
         }
 
         var widthDots = Config.widthDots!!
@@ -176,6 +183,9 @@ class MainActivity : AppCompatActivity() {
                 putString(Labels.HISTORY, Gson().toJson(History.entries))
                 putInt(Labels.WIDTH_DOTS, Config.widthDots!!)
                 putInt(Labels.HEIGHT_DOTS, Config.heightDots!!)
+                putString(Labels.FIRST_PLAYER_NICK, Player.FIRST.nick)
+                putString(Labels.SECOND_PLAYER_NICK, Player.SECOND.nick)
+
                 apply()
             }
     }
