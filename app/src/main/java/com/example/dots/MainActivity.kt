@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             title = getString(R.string.menu_header)
         }
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        Config.distance = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_MM, Config.distanceMM, resources.displayMetrics
+        )
 
         findViewById<ConstraintLayout>(R.id.container).apply {
             onGlobalLayout {

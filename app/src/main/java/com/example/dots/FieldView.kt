@@ -35,8 +35,8 @@ class FieldView : View {
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
 
     companion object {
-        const val radius: Float = 10.0f
-        const val strokeWidth = 5.0f
+        val radius = Config.distance / 5
+        val strokeWidth = radius / 2
         const val transparency = 63
     }
 

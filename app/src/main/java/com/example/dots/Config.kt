@@ -10,8 +10,13 @@ object Config {
         }
     }
 
-    private const val distance = 50.0f
-    private const val defaultMargin = distance
+    const val distanceMM = 4.5f
+    var distance = 0f
+        set(v) {
+            field = v
+            defaultMargin = v
+        }
+    private var defaultMargin = 0f
 
     var widthPixels: Int? = null
         set(v) {
